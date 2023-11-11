@@ -1,5 +1,5 @@
 import Image from "next/image"
-import LogoImage from '../../../../../../public/logo/b-logo.png'
+import LogoImage from '../../../../../public/logo/b-logo.png'
 
 const Logo = () => {
     return (

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Button from "../../Atoms/Button/Button";
 import Link from "next/link";
-import Logo from "../../Atoms/Button/Logo/Logo";
+import Logo from "../../Atoms/Logo/Logo";
 
 const Navbar = () => {
     return (
