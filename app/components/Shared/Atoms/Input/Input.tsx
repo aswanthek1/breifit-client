@@ -11,7 +11,7 @@ type InputType = {
     required?:boolean
 }
 
-export default function Input({label='', type='', value, onChange=()=>null, placeHolder='', name='', classes='', required=true}:InputType) {
+export default function Input({label='', type='', value, onChange=()=>null, placeHolder='', name='', classes='', required=false}:InputType) {
     return (
         <>
          <div className={`flex flex-col gap-2  ${classes}`}>
