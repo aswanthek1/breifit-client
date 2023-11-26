@@ -3,15 +3,15 @@
 type InputType = {
     label?: string,
     type: string,
-    value?: string | number,
-    onChange?:any,
+    value: string | number,
+    onChange?:React.ChangeEventHandler<HTMLInputElement>,
     placeHolder?:string,
     name?: string,
     classes?:string,
     required?:boolean
 }
 
-export default function Input({label='', type='', value, onChange=()=>null, placeHolder='', name='', classes='', required=false}:InputType) {
+export default function Input({label='', type='', value, onChange, placeHolder='', name='', classes='', required=false}:InputType) {
     return (
         <>
          <div className={`flex flex-col gap-2  ${classes}`}>
