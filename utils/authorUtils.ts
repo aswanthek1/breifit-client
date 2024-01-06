@@ -1,14 +1,16 @@
 import { ReturnValidationType, validEmail } from "./commonUtils"
 
-type AuthorType = {
-    name:string,
+export type AuthorType = {
+    id?:string,
+    password?:string,
+    name?:string,
     email:string,
     proffession?:string,
     company_name?:string,
     image?: File | {}
 }
 
-export const checkValidation = (data:AuthorType):ReturnValidationType => {
+export const checkValidation = (data:AuthorType, passwordCheck:boolean = false):ReturnValidationType => {
     if(!data?.name || data?.name?.trim()?.length < 2 || data?.name?.trim()?.length > 100) {
         return {
             value: false,
@@ -19,6 +21,33 @@ export const checkValidation = (data:AuthorType):ReturnValidationType => {
         return {
             value: false,
             message: 'A valid email is required'
+        }
+    }
+    else if(passwordCheck && (!data?.password?.trim()?.length || data.password?.trim()?.length < 4 || data.password?.trim()?.length > 15)) {
+        return {
+            value: false,
+            message:'Password must need minimum 4 and can have maximum characters of 15'
+        }
+    }
+    else {
+        return {
+            value: true,
+            message: ''
+        }
+    }
+}
+
+export const loginValidation = (data:AuthorType): ReturnValidationType => {
+    if(!data.email || !validEmail.test(data.email)) {
+        return {
+            value: false,
+            message: 'A valid email is required'
+        }
+    }
+    else if(!data?.password?.trim()?.length || data.password?.trim()?.length < 4 || data.password?.trim()?.length > 15) {
+        return {
+            value: false,
+            message:'Password must need minimum 4 and can have maximum characters of 15'
         }
     }
     else {

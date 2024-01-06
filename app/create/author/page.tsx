@@ -9,7 +9,6 @@ export default function CreateAuthor() {
         <>
             <PageTitle title="Say About You" />
             <CreateAuthorForm />
-            <ToasterComponent/>
         </>
     )
 }

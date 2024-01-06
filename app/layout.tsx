@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from './components/Shared/Molecules/Navbar/Navbar'
+import ToasterComponent from './components/Shared/Atoms/ToasterComponent/ToasterComponent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,7 +20,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} min-h-[100vh]`}>
         <Navbar/>
-        {children}
+        <main className="min-h-full flex flex-col items-center gap-10 py-10 px-7 sm:px-10 md:px-20 relative">
+            {children}
+        </main>
+        {/* {children} */}
+        
+        <ToasterComponent/>
       </body>
     </html>
   )

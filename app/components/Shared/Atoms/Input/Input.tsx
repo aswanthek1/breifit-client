@@ -2,8 +2,8 @@
 
 type InputType = {
     label?: string,
-    type: string,
-    value: string | number,
+    type?: string,
+    value?: string | number,
     onChange?:React.ChangeEventHandler<HTMLInputElement>,
     placeHolder?:string,
     name?: string,
@@ -11,7 +11,7 @@ type InputType = {
     required?:boolean
 }
 
-export default function Input({label='', type='', value, onChange, placeHolder='', name='', classes='', required=false}:InputType) {
+export default function Input({label='', type='text', value, onChange, placeHolder='', name='', classes='', required=false}:InputType) {
     return (
         <>
          <div className={`flex flex-col gap-2  ${classes}`}>

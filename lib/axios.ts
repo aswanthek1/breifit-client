@@ -9,7 +9,6 @@ const Axios = axios.create({
 
 export const PostWithFile = async (endpoint:string, data:any) => {
     // Axios.defaults.headers.common["authorization"] = "Bearer "+ getLocalStorage("token");
-    console.log(endpoint, data, "at axios")
     return Axios.post(endpoint, data, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -17,6 +16,14 @@ export const PostWithFile = async (endpoint:string, data:any) => {
       },
     });
   };
+
+export const Post = async(endpoint:string, data:any) => {
+  return Axios.post(endpoint, data, {
+    headers: {
+      "Content-Type": 'application/json'
+    }
+  })
+}
 
 // Request interceptor
 Axios.interceptors.request.use(

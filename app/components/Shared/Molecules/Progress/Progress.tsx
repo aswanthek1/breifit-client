@@ -6,7 +6,7 @@ const Progress = ({ loading }: LoadingType) => {
         <>
             {
                 loading &&
-                <div className="bg-none w-full h-[50rem] absolute top-0 overflow-hidden backdrop-brightness-50 left-0 z-10 flex justify-center items-center">
+                <div className="bg-none w-full h-full fixed top-0 overflow-hidden backdrop-brightness-50 left-0 z-10 flex justify-center items-center">
                     <div className="bg-white p-10 shadow-md rounded-xl relative">
                         <svg className="w-12 h-12 animate-spin text-indigo-400" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 4.75V6.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>

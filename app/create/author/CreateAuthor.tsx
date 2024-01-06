@@ -8,12 +8,12 @@ import FormComponent from "@/app/components/Shared/Molecules/FormComponent/FormC
 import { constants } from "@/constants/constants";
 import Axios, { PostWithFile } from "@/lib/axios";
 import { LoadingType, makePreviewImage } from '@/utils/commonUtils';
-import { checkValidation } from '@/utils/authorUtils';
+import { AuthorType, checkValidation } from '@/utils/authorUtils';
 import { toast } from 'react-hot-toast';
 import Progress from '@/app/components/Shared/Molecules/Progress/Progress';
 
 export default function CreateAuthorForm() {
-    const [authorData, setAuthorData] = useState({
+    const [authorData, setAuthorData] = useState<AuthorType>({
         name: '',
         email: '',
         proffession: '',
@@ -55,7 +55,7 @@ export default function CreateAuthorForm() {
             const {data} = await PostWithFile('/author/create', formData)
             toast.success(data?.message)
         } catch (error) {
-            toast.error('Something went wrong!')
+            toast.error(constants.COMMON_ERROR)
         }
         finally {
             toggleLoading(false)
@@ -68,10 +68,10 @@ export default function CreateAuthorForm() {
             <FormComponent handleSubmit={handleSubmit}>
                 <div className="flex flex-col-reverse md:flex-row justify-around gap-10 md:gap-5 w-full">
                     <div className=" w-full md:w-[60%] flex flex-col gap-10">
-                        <Input onChange={handleChange} value={authorData.name} required label="Enter your Name" type="text" name="name" />
-                        <Input onChange={handleChange} value={authorData.email} required label="Enter Your Email" type="email" name='email' />
-                        <Input onChange={handleChange} value={authorData.proffession} label="Your Proffession" type="text" name='proffession' />
-                        <Input onChange={handleChange} value={authorData.company_name} label="Company Name" type="text" name='company_name' />
+                        <Input onChange={handleChange} value={authorData.name} required label={constants.AUTHOR.name} type="text" name="name" />
+                        <Input onChange={handleChange} value={authorData.email} required label={constants.AUTHOR.email} type="email" name='email' />
+                        <Input onChange={handleChange} value={authorData.proffession} label={constants.AUTHOR.proffession} type="text" name='proffession' />
+                        <Input onChange={handleChange} value={authorData.company_name} label={constants.AUTHOR.company} type="text" name='company_name' />
                         <Button buttonType="submit" text="Save Details" backgroundColor={`bg-[${constants.BUTTONBGCOLOR}]`} />
                     </div>
                     <div className="md:mt-5">

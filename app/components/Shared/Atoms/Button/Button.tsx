@@ -16,7 +16,7 @@ const Button = ({text='', onClick=()=>{}, style={}, buttonType='button',backgrou
          <button
            onClick={onClick}
            type={buttonType}
-           className={`border-2 py-3 px-3 min-[370px]:px-5 md:px-11 shadow-2xl rounded ${backgroundColor}`}>
+           className={`border-2 py-3 px-3 min-[370px]:px-5 mt-3 md:px-11 shadow-2xl shadow-gray-400 hover:shadow-gray-600 transition-all rounded ${backgroundColor}`}>
             {text}
          </button>
         </>
