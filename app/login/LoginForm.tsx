@@ -10,6 +10,9 @@ import { LoadingType } from "@/utils/commonUtils";
 import Progress from "../components/Shared/Molecules/Progress/Progress";
 import toast from "react-hot-toast";
 import { Post } from "@/lib/axios";
+import { useRouter } from "next/navigation";
+import {headers} from 'next/headers'
+import Cookies from 'js-cookie'
 
 export default function () {
     const [loading, toggleLoading] = useState<LoadingType>(false);
@@ -17,6 +20,7 @@ export default function () {
         email: '',
         password: '',
     })
+    const router = useRouter()
     const handleSubmit = async(event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         const valid = loginValidation(authorData)
@@ -26,8 +30,15 @@ export default function () {
         toggleLoading(true)
         try {
             const created = await Post('/author/login', authorData)
-        } catch (error) {
-            toast.error(constants.COMMON_ERROR) 
+            console.log(created, "created")
+            const accessToken = created.data.accessToken
+            localStorage.setItem('token', accessToken)
+            // document.cookie = `token=${accessToken}; path=/; HttpOnly`;
+            Cookies.set('token', accessToken)
+            // cookies
+            router.push('/')
+        } catch (error:any) {
+            toast.error( error?.response?.data?.message || constants.COMMON_ERROR) 
         }
         finally{
             toggleLoading(false)

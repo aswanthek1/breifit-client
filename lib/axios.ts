@@ -25,17 +25,30 @@ export const Post = async(endpoint:string, data:any) => {
   })
 }
 
+export const Get = async(endpoint:string, data:any={}, token?:any) => {
+  console.log(endpoint, token)
+  return Axios.get(endpoint, 
+    {
+      headers: {
+        token:token,
+        "Content-Type": 'application/json'
+      }
+    }
+  )
+}
+
 // Request interceptor
 Axios.interceptors.request.use(
     (request) => {
       // request.headers["Content-Type"] = "application/json";
-      let token = localStorage.getItem("token")
-      if (token) {
-            request.headers.token = token;
-      }
+      // let token = localStorage.getItem("token")
+      // if (token) {
+      //       request.headers.token = token;
+      // }
       return request;
     },
     function (error) {
+      console.log(error, "error at reject")
       return Promise.reject(error);
     },
     { synchronous: true }
@@ -49,6 +62,7 @@ Axios.interceptors.response.use((response: any) => {
     return response
 }, (error) => {
     ///handle response error
+    console.log(error, 'errorro33333333')
     return Promise.reject(error)
 })
 //End of Response interceptor
