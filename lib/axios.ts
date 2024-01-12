@@ -4,7 +4,8 @@ const { BASE_URL } = configurations;
 
 // first create a  axios instance with base url
 const Axios = axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
+    withCredentials:true
 })
 
 export const PostWithFile = async (endpoint:string, data:any) => {

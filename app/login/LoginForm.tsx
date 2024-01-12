@@ -34,7 +34,7 @@ export default function () {
             const accessToken = created.data.accessToken
             localStorage.setItem('token', accessToken)
             // document.cookie = `token=${accessToken}; path=/; HttpOnly`;
-            Cookies.set('token', accessToken)
+            // Cookies.set('token', accessToken)
             // cookies
             router.push('/')
         } catch (error:any) {
