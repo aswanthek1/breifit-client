@@ -1,54 +1,61 @@
 
-import { NextResponse, NextRequest } from "next/server";
-import { Get } from "./lib/axios";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { configurations } from './config';
+import { cookies } from "next/headers";
 import Cookies from 'js-cookie'
 const { BASE_URL } = configurations;
-import { useRouter } from "next/navigation";
 
-const protectedRoutes = ["/create/author"]
+const unProtectedRoutes = ["/login", '/register']
 const session = false
 
-export default async function middleware(req: NextRequest, res: any) {
-    // const router = useRouter();
-    const token = req.cookies.get('token')?.value
-    // const token = Cookies.get('token')
-    if (protectedRoutes.includes(req.nextUrl.pathname)) {
-        console.log(token, "headers")
-        try {
-            // const created = await Get('/author/authenticate', null, token)
+export default async function middleware(request: NextRequest) {
+    const cookieStore = cookies()
+    const nextResponse = NextResponse.next()
+    const token = cookieStore.get("token")
+    // const token = nextResponse.cookies.get("token")
+    console.log(token, 'token is here')
+    try {
+        if (!token) {
+            console.log("No token at all\n");
+            if(request.nextUrl.pathname === '/login') {
+                return nextResponse
+            }
+            return NextResponse.redirect(new URL('/login', request.url))
+        }
+        else {
             const response = await fetch(`${BASE_URL}author/authenticate`, {
                 headers: {
-                    Authorization: `${token}`,
+                    Authorization: `${token.value}`,
                 },
-                credentials: 'include',
+                // credentials: 'include',
             });
             const created = await response.json()
-            console.log(created, "created")
-            if (created?.accessToken) {
-                // To change a cookie, first create a response
-                // const response = NextResponse.next()
-
-                // // Set a cookie
-                // response.cookies.set('token', created?.accessToken)
-
-                // const cookie = new Cook
-
-                req.cookies.set('token', created?.accessToken)
-                console.log(created?.accessToken, "created.accessToken")
-                // Cookies.set('token', created?.accessToken)
-                console.log(req.cookies.get('token'), 'ininin')
-                // res.cookies.set('token', created?.accessToken)
+            console.log(created);
+            console.log(request.nextUrl.pathname, 'nextResponse')
+            if(created?.error == true) {
+                console.log("Not verified token");
+                if(unProtectedRoutes.includes(request.nextUrl.pathname)) {
+                    return nextResponse
+                }
+                return NextResponse.redirect(new URL('/login', request.url))
             }
-            if (created?.error == 'true' || created?.status != '200') {
-                const absoluteUrl = new URL('/login', req.nextUrl.origin)
-                console.log(absoluteUrl.toString(), "absoluteURlrlrlrlr")
-                return NextResponse.redirect(absoluteUrl.toString())
+            else if(created?.accessToken) {
+                if(unProtectedRoutes.includes(request.nextUrl.pathname)) {
+                    return NextResponse.redirect(new URL('/', request.url))
+                }
+                // nextResponse.cookies.set('accessToken', created?.accessToken, { maxAge: 20 })
+                // cookieStore.set("token", created.accessToken, {maxAge:20, path:'/'})
+                // Cookies.set("token", created.accessToken, {expires:30, path:'/'})
             }
-            console.log(req.nextUrl.pathname,req.nextUrl.origin, "req.nextUrl.pathname at last")
-            // router.push(req.nextUrl.pathname)
-        } catch (error) {
-            console.log(error, 'at middleware')
         }
+        return nextResponse
+
+    } catch (error) {
+        console.log(error, 'at middleware')
     }
+}
+
+export const config = {
+    matcher: ['/create/author', '/create/blog', '/login', '/register']
 }

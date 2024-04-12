@@ -13,8 +13,9 @@ import { Post } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import {headers} from 'next/headers'
 import Cookies from 'js-cookie'
+import { parseCookies, setCookie } from 'nookies';
 
-export default function () {
+export default function LoginForm () {
     const [loading, toggleLoading] = useState<LoadingType>(false);
     const [authorData, setAuthorData] = useState<AuthorType>({
         email: '',
@@ -32,10 +33,13 @@ export default function () {
             const created = await Post('/author/login', authorData)
             console.log(created, "created")
             const accessToken = created.data.accessToken
-            localStorage.setItem('token', accessToken)
-            // document.cookie = `token=${accessToken}; path=/; HttpOnly`;
-            // Cookies.set('token', accessToken)
-            // cookies
+            localStorage.setItem("token", accessToken)
+            // Set cookies for token
+            // setCookie(null, 'token', accessToken, {
+            //     maxAge: 60 * 3, // 30 days
+            //     path: '/',
+            // });
+            Cookies.set("token", accessToken, {expires:30, path:'/'})
             router.push('/')
         } catch (error:any) {
             toast.error( error?.response?.data?.message || constants.COMMON_ERROR) 

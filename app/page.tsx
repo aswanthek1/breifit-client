@@ -10,7 +10,7 @@ export default function Home() {
           <Link href={'/'}>
             <Button text="Read Blogs" />
           </Link>
-          <Link href={'/create/author'}>
+          <Link href={'/create/blog'}>
             <Button text="Create One" />
           </Link>
         </div>
