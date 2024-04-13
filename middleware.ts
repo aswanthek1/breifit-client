@@ -18,7 +18,7 @@ export default async function middleware(request: NextRequest) {
     try {
         if (!token) {
             console.log("No token at all\n");
-            if(request.nextUrl.pathname === '/login') {
+            if (request.nextUrl.pathname === '/login') {
                 return nextResponse
             }
             return NextResponse.redirect(new URL('/login', request.url))
@@ -32,24 +32,28 @@ export default async function middleware(request: NextRequest) {
             });
             const created = await response.json()
             console.log(created);
-            console.log(request.nextUrl.pathname, 'nextResponse')
-            if(created?.error == true) {
+            if (created?.error == true) {
                 console.log("Not verified token");
-                if(unProtectedRoutes.includes(request.nextUrl.pathname)) {
+                if (unProtectedRoutes.includes(request.nextUrl.pathname)) {
                     return nextResponse
                 }
                 return NextResponse.redirect(new URL('/login', request.url))
             }
-            else if(created?.accessToken) {
-                if(unProtectedRoutes.includes(request.nextUrl.pathname)) {
+            else {
+                console.log("Verified token");
+                if (unProtectedRoutes.includes(request.nextUrl.pathname)) {
                     return NextResponse.redirect(new URL('/', request.url))
                 }
-                // nextResponse.cookies.set('accessToken', created?.accessToken, { maxAge: 20 })
-                // cookieStore.set("token", created.accessToken, {maxAge:20, path:'/'})
-                // Cookies.set("token", created.accessToken, {expires:30, path:'/'})
+                if (created?.accessToken) {
+                    // nextResponse.cookies.set('accessToken', created?.accessToken, { maxAge: 20 })
+                    // cookieStore.set("token", created.accessToken, {maxAge:20, path:'/'})
+                    // Cookies.set("token", created.accessToken, {expires:30, path:'/'})
+                }
+                console.log(nextResponse, 'responseo of next')
+                return nextResponse
             }
         }
-        return nextResponse
+        // return nextResponse
 
     } catch (error) {
         console.log(error, 'at middleware')

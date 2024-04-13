@@ -1,4 +1,4 @@
-import PageTitle from "../components/Shared/Atoms/PageTitle/PageTitle";
+import PageTitle from "../../components/Shared/Atoms/PageTitle/PageTitle";
 import RegisterForm from "./RegisterForm";
 
 export default function Register() {

@@ -7,7 +7,8 @@ export type AuthorType = {
     email:string,
     proffession?:string,
     company_name?:string,
-    image?: File | {}
+    image?: File | {},
+    role?:string
 }
 
 export const checkValidation = (data:AuthorType, passwordCheck:boolean = false):ReturnValidationType => {

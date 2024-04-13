@@ -1,15 +1,15 @@
 'use client';
 
 import { constants } from "@/constants/constants";
-import Input from "../components/Shared/Atoms/Input/Input";
-import FormComponent from "../components/Shared/Molecules/FormComponent/FormComponent";
+import Input from "../../components/Shared/Atoms/Input/Input";
+import FormComponent from "../../components/Shared/Molecules/FormComponent/FormComponent";
 import React, { useState } from "react";
 import { AuthorType, checkValidation } from "@/utils/authorUtils";
-import Button from "../components/Shared/Atoms/Button/Button";
+import Button from "../../components/Shared/Atoms/Button/Button";
 import toast from "react-hot-toast";
 import { LoadingType } from "@/utils/commonUtils";
 import { Post } from "@/lib/axios";
-import Progress from "../components/Shared/Molecules/Progress/Progress";
+import Progress from "../../components/Shared/Molecules/Progress/Progress";
 
 export default function RegisterForm() {
     const [loading, toggleLoading] = useState<LoadingType>(false);

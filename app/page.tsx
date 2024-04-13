@@ -7,7 +7,7 @@ export default function Home() {
       <div className="relative flex place-items-center flex-col w-full gap-20">
         <h1 className='text-[40px] lg:text-[70px] font-bold text-center w-full'>BriefIt Welcome's You</h1>
         <div className="flex justify-around w-full md:w-[80%]">
-          <Link href={'/'}>
+          <Link href={'/blog'}>
             <Button text="Read Blogs" />
           </Link>
           <Link href={'/create/blog'}>

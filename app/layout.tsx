@@ -3,6 +3,9 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from './components/Shared/Molecules/Navbar/Navbar'
 import ToasterComponent from './components/Shared/Atoms/ToasterComponent/ToasterComponent'
+import { Suspense } from 'react'
+import Loading from './loading'
+import StoreProvider from './StoreProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,13 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-[100vh]`}>
-        <Navbar/>
-        <main className="min-h-full flex flex-col items-center gap-10 py-10 px-7 sm:px-10 md:px-20 relative">
-            {children}
-        </main>
-        {/* {children} */}
-        
-        <ToasterComponent/>
+        <StoreProvider>
+          <Navbar />
+          <Suspense fallback={<Loading />}>
+            <main className="min-h-full flex flex-col items-center gap-10 py-10 px-7 sm:px-10 md:px-20 relative">
+              {children}
+            </main>
+          </Suspense>
+          {/* {children} */}
+          <ToasterComponent />
+        </StoreProvider>
       </body>
     </html>
   )
