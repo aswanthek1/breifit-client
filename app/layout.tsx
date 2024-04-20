@@ -6,6 +6,7 @@ import ToasterComponent from './components/Shared/Atoms/ToasterComponent/Toaster
 import { Suspense } from 'react'
 import Loading from './loading'
 import StoreProvider from './StoreProvider'
+import BackButton from './components/Shared/Molecules/BackButton/BackButton'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <Navbar />
           <Suspense fallback={<Loading />}>
             <main className="min-h-full flex flex-col items-center gap-10 py-10 px-7 sm:px-10 md:px-20 relative">
+              <BackButton />
               {children}
             </main>
           </Suspense>

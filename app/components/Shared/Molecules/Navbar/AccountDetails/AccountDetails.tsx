@@ -44,7 +44,7 @@ export default function AccountDetails() {
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                 >
-                    <PersonPin sx={{color:'black', fontSize:'40px'}} />
+                    <PersonPin sx={{ color: 'black', fontSize: '40px' }} />
                 </Button>
                 <Menu
                     id="basic-menu"
@@ -55,8 +55,13 @@ export default function AccountDetails() {
                         'aria-labelledby': 'basic-button',
                     }}
                 >
-                    {isLoggedIn && <MenuItem onClick={handleClose}>{author.name}</MenuItem>}
+                    {isLoggedIn && <MenuItem onClick={handleClose}>
+                        <Link href={'/author'} >{author.name}</Link>
+                    </MenuItem>}
                     {isLoggedIn && <MenuItem onClick={handleLogout}>Logout</MenuItem>}
+                    {isLoggedIn && author.role === 'admin' && <MenuItem >
+                        <Link href={'/admin/dashboard'}>Dashboard</Link>
+                    </MenuItem>}
                     {!isLoggedIn && <MenuItem onClick={handleClose}>
                         <Link className='font-bold text-sm' href={'/login'} >Login</Link>
                     </MenuItem>

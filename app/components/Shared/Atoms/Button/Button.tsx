@@ -9,14 +9,14 @@ type ButtonType = {
     buttonType?: "button" | "reset" | "submit",
     backgroundColor?:string
 }
-const Button = ({text='', onClick=()=>{}, style={}, buttonType='button',backgroundColor='bg-transparent'}:ButtonType) => {
+const Button = ({text='', onClick=()=>{}, style={}, buttonType='button',backgroundColor=''}:ButtonType) => {
 
     return (
         <>
          <button
            onClick={onClick}
            type={buttonType}
-           className={`border-2 py-3 px-3 min-[370px]:px-5 mt-3 md:px-11 shadow-2xl shadow-gray-400 hover:shadow-gray-600 transition-all rounded ${backgroundColor}`}>
+           className={`font-bold border-2 py-3 px-3 min-[370px]:px-5 mt-3 md:px-11 shadow-xl hover:shadow-2xl  transition-all rounded bg-slate-300`}>
             {text}
          </button>
         </>

@@ -6,20 +6,26 @@ import FormComponent from "@/app/components/Shared/Molecules/FormComponent/FormC
 import Progress from "@/app/components/Shared/Molecules/Progress/Progress";
 import TextEditor from "@/app/components/Shared/Molecules/TextEditor/TextEditor";
 import { constants } from "@/constants/constants";
-import { PostWithFile } from "@/lib/axios";
+import { PostWithFile, PutWithFile } from "@/lib/axios";
 import { BlogType, checkBlogValidation } from "@/utils/blogUtils";
 import { makePreviewImage } from "@/utils/commonUtils";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from 'react-hot-toast';
 
-export default function BlogForm() {
+type PageBlogType = {
+    blog?:BlogType
+}
+
+export default function BlogForm({blog}:PageBlogType) {
     const [blogData, setBlogData] = useState<BlogType>({
-        content: '',
-        image: '',
-        tittle: ''
+        content: blog?.content ? blog.content : '',
+        image: blog?.image ? blog?.image : '',
+        tittle: blog?.tittle ? blog?.tittle : ''
     })
-    const [imagePreview, setImagePreview] = useState<string | undefined>('')
+    const [imagePreview, setImagePreview] = useState<string | undefined>(blog?.image ? blog.image : '')
     const [loading, setLoading] = useState(false)
+    const router = useRouter()
     const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         const valid = checkBlogValidation(blogData)
@@ -32,11 +38,20 @@ export default function BlogForm() {
             formData.append('tittle', blogData.tittle)
             formData.append('content', blogData.content)
             formData.append('image', blogData.image)
-            const { data } = await PostWithFile('/blog/addBlog', formData)
-            setBlogData({content:'', image:'', tittle:''})
-            setImagePreview("")
+            if(blog) {
+                // edit
+                const {data} = await PutWithFile(`/blog/edit/${blog._id}`, formData)
+                toast.success(data?.message)
+                router.refresh()
+            }
+            else {
+                // create
+                const { data } = await PostWithFile('/blog/addBlog', formData)
+                toast.success(data?.message)
+                setBlogData({content:'', image:'', tittle:''})
+                setImagePreview("")
+            }
             setLoading(false)
-            toast.success(data?.message)
         }
         catch (error) {
             setLoading(false)

@@ -11,13 +11,14 @@ import Progress from "../../components/Shared/Molecules/Progress/Progress";
 import toast from "react-hot-toast";
 import { Post } from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import {headers} from 'next/headers'
+import { headers } from 'next/headers'
 import Cookies from 'js-cookie'
 import { parseCookies, setCookie } from 'nookies';
 import { useAppDispatch } from "@/lib/hooks";
 import { updateState } from "@/lib/features/userSlice";
+import Link from "next/link";
 
-export default function LoginForm () {
+export default function LoginForm() {
     const [loading, toggleLoading] = useState<LoadingType>(false);
     const dispatch = useAppDispatch()
     const [authorData, setAuthorData] = useState<AuthorType>({
@@ -25,7 +26,7 @@ export default function LoginForm () {
         password: '',
     })
     const router = useRouter()
-    const handleSubmit = async(event: React.ChangeEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         const valid = loginValidation(authorData)
         if (!valid.value) {
@@ -42,13 +43,13 @@ export default function LoginForm () {
             //     maxAge: 60 * 3, // 30 days
             //     path: '/',
             // });
-            dispatch(updateState({author:created.data.data, isLoggedIn:true}))
-            Cookies.set("token", accessToken, {expires:30, path:'/'})
+            dispatch(updateState({ author: created.data.data, isLoggedIn: true }))
+            Cookies.set("token", accessToken, { expires: 30, path: '/' })
             router.push('/')
-        } catch (error:any) {
-            toast.error( error?.response?.data?.message || constants.COMMON_ERROR) 
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message || constants.COMMON_ERROR)
         }
-        finally{
+        finally {
             toggleLoading(false)
         }
     }
@@ -66,6 +67,12 @@ export default function LoginForm () {
                     <Input onChange={handleFormChange} name="email" value={authorData.email} label={constants.AUTHOR.email} />
                     <Input onChange={handleFormChange} name="password" value={authorData.password} label={constants.AUTHOR.password} type="password" />
                     <Button buttonType="submit" text="Login" backgroundColor={`bg-[${constants.BUTTONBGCOLOR}]`} />
+                    <div className="flex justify-start items-center gap-3">
+                        <p className="font-semibold text-lg">
+                            Not registerd yet?
+                        </p>
+                        <Link className="text-blue-500 font-bold text-lg hover:underline" href="/register">Signup</Link>
+                    </div>
                 </div>
             </FormComponent>
         </>

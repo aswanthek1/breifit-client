@@ -18,7 +18,7 @@ export default async function middleware(request: NextRequest) {
     try {
         if (!token) {
             console.log("No token at all\n");
-            if (request.nextUrl.pathname === '/login') {
+            if (unProtectedRoutes.includes(request.nextUrl.pathname)) {
                 return nextResponse
             }
             return NextResponse.redirect(new URL('/login', request.url))
@@ -31,7 +31,7 @@ export default async function middleware(request: NextRequest) {
                 // credentials: 'include',
             });
             const created = await response.json()
-            console.log(created);
+            // console.log(created);
             if (created?.error == true) {
                 console.log("Not verified token");
                 if (unProtectedRoutes.includes(request.nextUrl.pathname)) {
@@ -49,7 +49,7 @@ export default async function middleware(request: NextRequest) {
                     // cookieStore.set("token", created.accessToken, {maxAge:20, path:'/'})
                     // Cookies.set("token", created.accessToken, {expires:30, path:'/'})
                 }
-                console.log(nextResponse, 'responseo of next')
+                // console.log(nextResponse, 'responseo of next')
                 return nextResponse
             }
         }
@@ -61,5 +61,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/create/author', '/create/blog', '/login', '/register']
+    matcher: ['/create/author', '/create/blog', '/blog/:blogid/edit', '/author', '/login', '/register']
 }

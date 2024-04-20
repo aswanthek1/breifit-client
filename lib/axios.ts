@@ -51,6 +51,17 @@ export const GetWithoutToken = async (endpoint: string, query: any) => {
   )
 }
 
+export const PutWithFile = async (endpoint: string, data: any) => {
+  // Axios.defaults.headers.common["authorization"] = "Bearer "+ getLocalStorage("token");
+  const token = localStorage.getItem("token")
+  return Axios.put(endpoint, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "authorization": token
+    },
+  });
+};
+
 // Request interceptor
 Axios.interceptors.request.use(
   (request) => {

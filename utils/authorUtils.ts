@@ -1,7 +1,7 @@
 import { ReturnValidationType, validEmail } from "./commonUtils"
 
 export type AuthorType = {
-    id?:string,
+    _id?:string,
     password?:string,
     name?:string,
     email:string,

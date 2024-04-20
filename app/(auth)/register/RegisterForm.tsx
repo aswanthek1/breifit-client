@@ -10,15 +10,16 @@ import toast from "react-hot-toast";
 import { LoadingType } from "@/utils/commonUtils";
 import { Post } from "@/lib/axios";
 import Progress from "../../components/Shared/Molecules/Progress/Progress";
+import Link from "next/link";
 
 export default function RegisterForm() {
     const [loading, toggleLoading] = useState<LoadingType>(false);
     const [authorData, setAuthorData] = useState<AuthorType>({
         name: '',
         email: '',
-        password:'',
+        password: '',
     })
-    const handleSubmit = async(event: React.ChangeEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault()
         console.log(authorData, 'authordata')
         const valid = checkValidation(authorData, true) /// this true is for checking password validation
@@ -29,9 +30,9 @@ export default function RegisterForm() {
         try {
             const created = await Post('/author/register', authorData)
         } catch (error) {
-            toast.error(constants.COMMON_ERROR) 
+            toast.error(constants.COMMON_ERROR)
         }
-        finally{
+        finally {
             toggleLoading(false)
         }
     }
@@ -43,15 +44,21 @@ export default function RegisterForm() {
     }
     return (
         <>
-        <Progress loading={loading} />
-        <FormComponent handleSubmit={handleSubmit}>
-            <div className="flex flex-col gap-3 w-full md:w-[80%] lg:w-[60%] mx-auto" >
-                <Input onChange={handleFormChange} name="name" value={authorData.name} label={constants.AUTHOR.name}  />
-                <Input onChange={handleFormChange} name="email" value={authorData.email} label={constants.AUTHOR.email}  />
-                <Input onChange={handleFormChange} name="password" value={authorData.password} label={constants.AUTHOR.password} type="password" />
-                <Button buttonType="submit" text="Create Account" backgroundColor={`bg-[${constants.BUTTONBGCOLOR}]`} />
-            </div>
-        </FormComponent>
+            <Progress loading={loading} />
+            <FormComponent handleSubmit={handleSubmit}>
+                <div className="flex flex-col gap-3 w-full md:w-[80%] lg:w-[60%] mx-auto" >
+                    <Input onChange={handleFormChange} name="name" value={authorData.name} label={constants.AUTHOR.name} />
+                    <Input onChange={handleFormChange} name="email" value={authorData.email} label={constants.AUTHOR.email} />
+                    <Input onChange={handleFormChange} name="password" value={authorData.password} label={constants.AUTHOR.password} type="password" />
+                    <Button buttonType="submit" text="Create Account" backgroundColor={`bg-[${constants.BUTTONBGCOLOR}]`} />
+                    <div className="flex justify-start items-center gap-3">
+                        <p className="font-semibold text-lg">
+                            Allready have an account?
+                        </p>
+                        <Link className="text-blue-500 font-bold text-lg hover:underline" href="/login">Login</Link>
+                    </div>
+                </div>
+            </FormComponent>
         </>
     )
 }
