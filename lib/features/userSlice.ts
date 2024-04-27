@@ -7,7 +7,7 @@ export const fetchUserDetails = createAsyncThunk(
     'auction/fetchArchievedEvents',
     async () => {
         const { data } = await Get('/author/authenticate')
-        console.log(data?.authorData, 'at redux thunk')
+        // console.log(data?.authorData, 'at redux thunk')
         return {
             author: data?.authorData,
         }

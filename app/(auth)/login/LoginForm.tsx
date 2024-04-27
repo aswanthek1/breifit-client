@@ -11,12 +11,11 @@ import Progress from "../../components/Shared/Molecules/Progress/Progress";
 import toast from "react-hot-toast";
 import { Post } from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import { headers } from 'next/headers'
 import Cookies from 'js-cookie'
-import { parseCookies, setCookie } from 'nookies';
 import { useAppDispatch } from "@/lib/hooks";
 import { updateState } from "@/lib/features/userSlice";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
     const [loading, toggleLoading] = useState<LoadingType>(false);
@@ -45,7 +44,8 @@ export default function LoginForm() {
             // });
             dispatch(updateState({ author: created.data.data, isLoggedIn: true }))
             Cookies.set("token", accessToken, { expires: 30, path: '/' })
-            router.push('/')
+            // router.push('/')
+            window.location.reload()
         } catch (error: any) {
             toast.error(error?.response?.data?.message || constants.COMMON_ERROR)
         }
@@ -59,6 +59,16 @@ export default function LoginForm() {
             [event.target.name]: event.target.value
         })
     }
+
+    const handleProvider = async (event: any, provider: string) => {
+        event.preventDefault()
+        try {
+            await signIn(provider); // Use signIn with redirect: false
+        } catch (error) {
+            console.log("Error during sign-in:", error);
+        }
+    }
+
     return (
         <>
             <Progress loading={loading} />
@@ -67,6 +77,8 @@ export default function LoginForm() {
                     <Input onChange={handleFormChange} name="email" value={authorData.email} label={constants.AUTHOR.email} />
                     <Input onChange={handleFormChange} name="password" value={authorData.password} label={constants.AUTHOR.password} type="password" />
                     <Button buttonType="submit" text="Login" backgroundColor={`bg-[${constants.BUTTONBGCOLOR}]`} />
+                    <p className="text-center font-bold mb-0">Or</p>
+                    <Button buttonType="button" onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleProvider(event, 'google')} text="Login With Google" backgroundColor={`bg-[${constants.BUTTONBGCOLOR}]`} />
                     <div className="flex justify-start items-center gap-3">
                         <p className="font-semibold text-lg">
                             Not registerd yet?

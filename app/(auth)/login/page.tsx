@@ -5,7 +5,7 @@ export default function Login() {
     return (
         <>
             <PageTitle title="Login" />
-            <LoginForm/>
+            <LoginForm />
         </>
     )
 }
